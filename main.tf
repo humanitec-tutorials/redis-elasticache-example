@@ -70,7 +70,7 @@ resource "aws_security_group" "redis_security_group" {
 }
 
 resource "aws_elasticache_subnet_group" "redis_subnet_group" {
-  name       = "redis-subnet-group"
+  name       = local.cluster_id
   subnet_ids = var.subnet_ids
 }
 
