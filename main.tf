@@ -48,10 +48,7 @@ locals {
   env_id = substr(var.environment, 0, min(15, length(var.environment)))
   app_id = substr(var.app_name, 0, min(15, length(var.app_name)))
   res_id = substr(split(".", var.resource_name)[3], 0, min(15, length(var.resource_name)))
-}
-
-locals {
-  cluster_id = replace(lower("${locals.env_id}-${locals.app_id}-${locals.res_id}"), "_", "-")
+  cluster_id = replace(lower("${local.env_id}-${local.app_id}-${local.res_id}"), "_", "-")
 }
 
 resource "aws_security_group" "redis_security_group" {
