@@ -33,6 +33,13 @@ variable "resource_name" {
   type        = string
 }
 
+locals {
+  env_id = substr(var.environment, 0, min(15, length(var.environment)))
+  app_id = substr(var.app_name, 0, min(15, length(var.app_name)))
+  res_id = substr(split(".", var.resource_name)[3], 0, min(15, length(var.resource_name)))
+  cluster_id = replace(lower("${locals.env_id}-${locals.app_id}-${locals.res_id}"), "_", "-")
+}
+
 resource "aws_security_group" "redis_security_group" {
   vpc_id = var.vpc_id
 
@@ -54,13 +61,6 @@ resource "aws_security_group" "redis_security_group" {
 resource "aws_elasticache_subnet_group" "redis_subnet_group" {
   name       = "redis-subnet-group"
   subnet_ids = var.subnet_ids
-}
-
-locals {
-  env_id = substr(var.environment, 0, min(15, length(var.environment)))
-  app_id = substr(var.app_name, 0, min(15, length(var.app_name)))
-  res_id = substr(var.resource_name, 0, min(15, length(var.resource_name)))
-  cluster_id = replace(lower("${locals.env_id}-${locals.app_id}-${locals.res_id}"), "_", "-")
 }
 
 resource "aws_elasticache_cluster" "redis_cluster" {
