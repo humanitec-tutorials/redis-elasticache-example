@@ -1,0 +1,25 @@
+apiVersion: core.api.humanitec.io/v1
+kind: Definition
+metadata:
+  id: production-redis
+object:
+  type: redis
+  driver_type: woverton-testing/terraform
+  driver_inputs:
+    values:
+      source: 
+        url: https://github.com/Humanitec-DemoOrg/redis-elasticache-example.git
+        rev: refs/heads/main
+      variables: 
+        vpc_id: vpc-xxxxxxxxxxx
+        subnet_ids: ["subnet-xxxxxxxxxxxxxx", "subnet-xxxxxxxxxxxxxx"]
+        environment: ${context.env.id}
+        app_name: ${context.app.id}
+        resource_name: ${context.res.id}
+    secrets:
+      variables:
+        credentials: 
+          access_key: ...
+          secret_key: ...
+  criteria:
+  - env_type: production

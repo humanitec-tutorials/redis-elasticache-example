@@ -6,6 +6,17 @@ variable "region" {
 
 provider "aws" {
   region = var.region
+  access_key = var.credentials.access_key
+  secret_key = var.credentials.secret_key
+}
+
+variable "credentials" {
+  description = "The credentials for connecting to AWS."
+  type = object({
+    access_key = string
+    secret_key = string
+  })
+  sensitive = true
 }
 
 variable "vpc_id" {
@@ -37,6 +48,9 @@ locals {
   env_id = substr(var.environment, 0, min(15, length(var.environment)))
   app_id = substr(var.app_name, 0, min(15, length(var.app_name)))
   res_id = substr(split(".", var.resource_name)[3], 0, min(15, length(var.resource_name)))
+}
+
+locals {
   cluster_id = replace(lower("${locals.env_id}-${locals.app_id}-${locals.res_id}"), "_", "-")
 }
 

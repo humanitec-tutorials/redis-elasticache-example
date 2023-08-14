@@ -1,0 +1,27 @@
+apiVersion: score.dev/v1b1
+
+metadata:
+  name: redis-commander
+
+# Define the ports that this service exposes
+service:
+  ports:
+    rediscommander:
+      port: 80 # The port that the service will be exposed on
+      targetPort: 8081 # The port that the container will be listening on
+
+# Define the containers that make up this service
+containers:
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    variables:
+      REDIS_HOST: ${resources.redis.host}
+      REDIS_PORT: ${resources.redis.port}
+      REDIS_PASSWORD: ${resources.redis.password}
+
+# Define the resources that this service needs
+resources:
+  dns:
+    type: dns
+  redis:  # We need a Redis to store data
+    type: redis
