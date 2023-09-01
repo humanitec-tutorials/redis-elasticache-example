@@ -11,6 +11,7 @@ object:
         url: https://github.com/Humanitec-DemoOrg/redis-elasticache-example.git
         rev: refs/heads/main
       variables: 
+        region: us-east-2
         vpc_id: vpc-xxxxxxxxxxx
         subnet_ids: ["subnet-xxxxxxxxxxxxxx", "subnet-xxxxxxxxxxxxxx"]
         environment: ${context.env.id}
